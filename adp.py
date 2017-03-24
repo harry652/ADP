@@ -47,6 +47,10 @@ def countNames(letterPage):
     return nameCount
 
 for letterURL in letterList:
+    if letterURL=='https://skos.agh.edu.pl/search/?letter=Q':
+        list.append(nameList, 'https://skos.agh.edu.pl/osoba/katarzyna-quirini-poplawska-5905.html')
+        print("Pobrano link:"+"https://skos.agh.edu.pl/osoba/katarzyna-quirini-poplawska-5905.html")
+        continue
     letterPage=urlopen(letterURL)
     letterPage=letterPage.read()
     nameCount+=int(countNames(letterPage))
@@ -56,6 +60,7 @@ for letterURL in letterList:
         list.append(nameList, nameData[0])
         print("Pobrano link:"+nameData[0])
         if nameCount<=len(nameList):
+            nameFindIndex=0
             break
         else:
             nameFindIndex=nameData[1]
