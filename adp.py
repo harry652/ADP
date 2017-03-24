@@ -18,12 +18,34 @@ nameCount=0
 mainPage=urlopen(startingURL)
 mainPage=mainPage.read()
 
+#tutaj szukamy URL literek, zgodnie ze sposobem podanym na zajęciach
+#na wejściu funkcja potrzebuje jedynie punktu startowego
 def letterFind(letterStart):
     startingLetterPoint=mainPage.find('https://skos.agh.edu.pl/search/?letter=',letterStart)
     endingLetterPoint=mainPage.find('"',startingLetterPoint)
     letterLink=mainPage[startingLetterPoint:endingLetterPoint]
     return letterLink, endingLetterPoint
 
+#tutaj na wejściu funkcja otrzymuje zawartość strony z listą nazwisk na daną literę
+#oprócz tego, całość działa podobnie jak wyżej - też otrzymuje punkt startowy
+def nameFind(nameStart, letterPage):
+    startingNamePoint=letterPage.find('https://skos.agh.edu.pl/osoba/', nameStart)
+    endingNamePoint=letterPage.find('"', startingNamePoint)
+    nameLink=letterPage[startingNamePoint:endingNamePoint]
+    return nameLink, endingNamePoint
+
+#ta funkcja szuka liczby osób na stronie, wyświetlanej u góry ("Liczba znalezionych osób")
+#jest to potrzebne by skutecznie skończyć wyszukiwanie i oszczędzić czasu pracy programu
+def countNames(letterPage):
+    startingNameCountPoint=letterPage.find('Liczba znalezionych os')
+    endingNameCountPoint=letterPage.find('<', startingNameCountPoint)
+    nameCount=letterPage[startingNameCountPoint+33:endingNameCountPoint]
+    return nameCount
+
+#ta pętla zapisuje do listy i jednocześnie wypisuje na ekran URL literek
+#korzysta ona z funkcji letterFind i jedyne co robi to podaje jej na wejściu to,
+#co poprzednio wypluła (czyli endingLetterPoint)
+#warunkiem przerwania pętli jest napotkanie ostatniego linku (dla litery ż)
 while True:
     letterData=letterFind(letterFindIndex)
     list.append(letterList,letterData[0])
@@ -34,22 +56,15 @@ while True:
         letterFindIndex=letterData[1]
         continue
 
-def nameFind(nameStart, letterPage):
-    startingNamePoint=letterPage.find('https://skos.agh.edu.pl/osoba/', nameStart)
-    endingNamePoint=letterPage.find('"', startingNamePoint)
-    nameLink=letterPage[startingNamePoint:endingNamePoint]
-    return nameLink, endingNamePoint
-
-def countNames(letterPage):
-    startingNameCountPoint=letterPage.find('Liczba znalezionych os')
-    endingNameCountPoint=letterPage.find('<', startingNameCountPoint)
-    nameCount=letterPage[startingNameCountPoint+33:endingNameCountPoint]
-    return nameCount
-
+#ta pętla ostatecznie znajduje linki do stron osobowych i zapisuje je do listy, oraz wyświetla na ekran
+#na początku sprawdza czy przypadkiem URL nazwiska nie pokrywa się z url dla q, bo z tym był mały problem
+#następnie program pobiera zawartość strony z listą nazwisk na daną literę
+#przed wejściem w pętlę while - analogiczną do pętli dla wypisywania URL literek - korzysta z funkcji
+#countNames, by następna pętla wiedziała ile odliczać
 for letterURL in letterList:
     if letterURL=='https://skos.agh.edu.pl/search/?letter=Q':
         list.append(nameList, 'https://skos.agh.edu.pl/osoba/katarzyna-quirini-poplawska-5905.html')
-        print("Pobrano link:"+"https://skos.agh.edu.pl/osoba/katarzyna-quirini-poplawska-5905.html")
+        print("Pobrano link: "+"https://skos.agh.edu.pl/osoba/katarzyna-quirini-poplawska-5905.html")
         continue
     letterPage=urlopen(letterURL)
     letterPage=letterPage.read()
@@ -58,7 +73,7 @@ for letterURL in letterList:
     while True:
         nameData=nameFind(nameFindIndex, letterPage)
         list.append(nameList, nameData[0])
-        print("Pobrano link:"+nameData[0])
+        print("Pobrano link: "+nameData[0])
         if nameCount<=len(nameList):
             nameFindIndex=0
             break
