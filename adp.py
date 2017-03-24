@@ -1,3 +1,4 @@
+# -*- coding: iso-8859-15 -*-
 #
 #  adp.py
 #  ADP Project
@@ -7,6 +8,7 @@
 #
 
 from six.moves.urllib.request import urlopen
+import os, sys
 
 startingURL="https://skos.agh.edu.pl"
 letterList=[]
@@ -34,8 +36,8 @@ def nameFind(nameStart, letterPage):
     nameLink=letterPage[startingNamePoint:endingNamePoint]
     return nameLink, endingNamePoint
 
-#ta funkcja szuka liczby osób na stronie, wyświetlanej u góry ("Liczba znalezionych osób")
-#jest to potrzebne by skutecznie skończyć wyszukiwanie i oszczędzić czasu pracy programu
+#ta funkcja szuka liczby osob na stronie, wyświetlanej u góry ("Liczba znalezionych osób")
+#jest to potrzebne by skutecznie skończyć wyszukiwanie i oszczędzic czasu pracy programu
 def countNames(letterPage):
     startingNameCountPoint=letterPage.find('Liczba znalezionych os')
     endingNameCountPoint=letterPage.find('<', startingNameCountPoint)
@@ -45,7 +47,7 @@ def countNames(letterPage):
 #ta pętla zapisuje do listy i jednocześnie wypisuje na ekran URL literek
 #korzysta ona z funkcji letterFind i jedyne co robi to podaje jej na wejściu to,
 #co poprzednio wypluła (czyli endingLetterPoint)
-#warunkiem przerwania pętli jest napotkanie ostatniego linku (dla litery ż)
+#warunkiem przerwania pętli jest napotkanie ostatniego linku (czyli dla litery ż)
 while True:
     letterData=letterFind(letterFindIndex)
     list.append(letterList,letterData[0])
