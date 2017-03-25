@@ -36,8 +36,8 @@ def nameFind(nameStart, letterPage):
     nameLink=letterPage[startingNamePoint:endingNamePoint]
     return nameLink, endingNamePoint
 
-#ta funkcja szuka liczby osob na stronie, wyświetlanej u góry ("Liczba znalezionych osób")
-#jest to potrzebne by skutecznie skończyć wyszukiwanie i oszczędzic czasu pracy programu
+#ta funkcja szuka liczby osób na stronie, wyświetlanej u góry ("Liczba znalezionych osób")
+#jest to potrzebne by skutecznie skończyć wyszukiwanie i oszczędzić czasu pracy programu
 def countNames(letterPage):
     startingNameCountPoint=letterPage.find('Liczba znalezionych os')
     endingNameCountPoint=letterPage.find('<', startingNameCountPoint)
