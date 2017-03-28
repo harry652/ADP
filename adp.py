@@ -16,6 +16,7 @@ letterFindIndex=0
 nameList=[]
 nameFindIndex=0
 nameCount=0
+dataTab=[]
 
 mainPage=urlopen(startingURL)
 mainPage=mainPage.read()
@@ -43,6 +44,49 @@ def countNames(letterPage):
     endingNameCountPoint=letterPage.find('<', startingNameCountPoint)
     nameCount=letterPage[startingNameCountPoint+33:endingNameCountPoint]
     return nameCount
+#--------------------------------------------------------------------------------------------
+#tego nie trzeba, to już znajduje wszystkie potrzebne dane
+class skosName:
+    
+    def _init_(self):
+        self.data=''
+    def find(self, className, namePage):
+        while True:
+            startingClassPoint=namePage.find(className)
+            if startingClassPoint==-1:
+                break
+            endingClassPoint=namepage.find('</a>',startingEntityPoint)
+            entity.append(namepage[(startingEntityPoint+len(className)+2):endingEntityPoint])
+
+def findTitle(namePage)
+
+def findName(namePage)
+
+def findEntity(namePage)
+    entity=''
+    while True
+        startingEntityPoint=namePage.find('organisation-name')
+        if startingEntityPoint==-1: break
+        endingEntityPoint=namepage.find('</a>',startingEntityPoint)
+        entity.append(namepage[(startingEntityPoint+19):endingEntityPoint])
+
+    while True:
+
+def findPosition(namePage)
+
+def findGroup(namePage)
+
+def findHQ(namePage)
+
+def findPhone(namePage)
+
+def findMobile(namePage)
+
+def findAdress(namePage)
+#--------------------------------------------------------------------------------------------
+
+
+
 
 #ta pętla zapisuje do listy i jednocześnie wypisuje na ekran URL literek
 #korzysta ona z funkcji letterFind i jedyne co robi to podaje jej na wejściu to,
